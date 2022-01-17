@@ -15,7 +15,7 @@
 <meta property="og:description" content="单调栈：（比较难理解这个算法—绝对不是我摸鱼了）—————————-">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-01-17T10:23:39.774Z">
-<meta property="article:modified_time" content="2022-01-17T10:24:27.413Z">
+<meta property="article:modified_time" content="2022-01-17T13:37:19.173Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -78,7 +78,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="单调栈："><a href="#单调栈：" class="headerlink" title="单调栈："></a><strong>单调栈</strong>：</h4><p>（比较难理解这个算法—绝对不是我摸鱼了）—————————-</p>
+        <h1 id="单调栈："><a href="#单调栈：" class="headerlink" title="单调栈："></a><strong>单调栈</strong>：</h1><p>（比较难理解这个算法—绝对不是我摸鱼了）—————————-</p>
 <span id="more"></span>
 
 <h3 id="模板题："><a href="#模板题：" class="headerlink" title="模板题："></a>模板题：</h3><p>现在有一个数组a[4] = {5,7,3,4}，<strong>要你找出每一个元素左边最靠近它的最小元素的位置（下标+1），如果没有元素比它小，则输出0</strong><br>此时我们会想到，从每一个数字开始想左边遍历，这是一个朴素的算法，我们就不再多说了。<br>我们要说的是怎么样利用单调栈来解决该问题<br>1.设计一个数组res[4]，来保存结果<br>2.开一个栈，这个栈的性质是，当栈为空的时候，将对应的res[i] = 0；当栈顶元素是从左开始，输入的数中最小的那个的下标，如果进栈的元素小于或者等于a[栈顶元素]，则输出0；如果大于，则输出栈顶元素+1。</p>
@@ -94,7 +94,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/01/17/%E5%8D%95%E8%B0%83%E6%A0%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" data-id="ckyio98380000hkvk5hhj51x4" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/01/17/%E5%8D%95%E8%B0%83%E6%A0%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" data-id="ckyiqfsqs0000scvkhtjnhfep" class="article-share-link">Share</a>
       
       
     </footer>
