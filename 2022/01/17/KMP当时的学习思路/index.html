@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>无聊死啦</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="KMP学习思路不要尝试去反推">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无聊死啦">
+<meta property="og:url" content="http://example.com/2022/01/17/KMP%E5%BD%93%E6%97%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%80%9D%E8%B7%AF/index.html">
+<meta property="og:site_name" content="无聊死啦">
+<meta property="og:description" content="KMP学习思路不要尝试去反推">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-17T13:41:50.716Z">
+<meta property="article:modified_time" content="2022-01-17T13:54:17.164Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="无聊死啦" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">无聊死啦</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-KMP当时的学习思路" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/01/17/KMP%E5%BD%93%E6%97%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%80%9D%E8%B7%AF/" class="article-date">
+  <time datetime="2022-01-17T13:41:50.716Z" itemprop="datePublished">2022-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="KMP学习思路"><a href="#KMP学习思路" class="headerlink" title="KMP学习思路"></a>KMP学习思路</h1><p>不要尝试去反推</p>
+<span id="more"></span>
+
+<p><strong>推荐学习网址</strong>：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/-citywall123/p/11688576.html%EF%BC%9B">https://www.cnblogs.com/-citywall123/p/11688576.html；</a></p>
+<p><strong>注意</strong>：</p>
+<p><strong>在有符号整型和无符号整型的比较中，自动将有符号整型数转换为无符号整型。</strong></p>
+<h4 id="C-方法："><a href="#C-方法：" class="headerlink" title="C++方法："></a>C++方法：</h4><p>不要尝试理解kmp算法，与递归同理</p>
+<p>下面是求<strong>Next</strong>数组的方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> n = <span class="number">1008</span>;  </span><br><span class="line">string s;</span><br><span class="line"><span class="keyword">int</span> Next[n];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">aa</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Next[<span class="number">0</span>]=<span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> j = <span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">while</span>(i&lt;=s.<span class="built_in">length</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(j==<span class="number">-1</span>||s[i]==s[j])</span><br><span class="line">		&#123;</span><br><span class="line">			Next[++i]=++j;</span><br><span class="line">		&#125;<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			j=Next[j];</span><br><span class="line">		&#125;</span><br><span class="line">	 &#125; </span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cin&gt;&gt;s;</span><br><span class="line">	<span class="built_in">aa</span>();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">length</span>();i++)</span><br><span class="line">	&#123;</span><br><span class="line">		cout&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;Next[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>下面是全的代码</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> n=<span class="number">1e6</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> next1[n];</span><br><span class="line">string re;</span><br><span class="line">string te;</span><br><span class="line"><span class="keyword">int</span> re1,te1;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">get_ne</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> j=<span class="number">-1</span>;</span><br><span class="line">	next1[<span class="number">0</span>]=<span class="number">-1</span>;</span><br><span class="line">	<span class="comment">//	i在前面，j在后面 </span></span><br><span class="line">	<span class="keyword">while</span>(i&lt;te1)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="keyword">if</span>(j==<span class="number">-1</span>||te[i]==te[j])</span><br><span class="line">	&#123;</span><br><span class="line">		next1[++i]=++j;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		j=next1[j];</span><br><span class="line">	&#125;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_piace</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> j=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(i&lt;re1&amp;&amp;j&lt;te1)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(j==<span class="number">-1</span>||te[j]==re[i])</span><br><span class="line">		&#123;</span><br><span class="line">			i++;</span><br><span class="line">			j++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			j=next1[j];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(j&gt;=te1)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> i-te1+<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cin&gt;&gt;re&gt;&gt;te;</span><br><span class="line">	re1=re.<span class="built_in">size</span>();</span><br><span class="line">	te1=te.<span class="built_in">length</span>();</span><br><span class="line">	<span class="built_in">get_ne</span>();</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;查找到的位置初始是：&quot;</span>&lt;&lt;<span class="built_in">get_piace</span>()&lt;&lt;endl<span class="comment">//由一开始的</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>java方法：</strong></p>
+<p>实际上没啥区别，就再写一遍而已：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> N =<span class="number">1000000</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> Next[] =<span class="keyword">new</span> <span class="keyword">int</span>[N];</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">char</span> TE[] =<span class="keyword">new</span> <span class="keyword">char</span>[N];</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">char</span> RE[] =<span class="keyword">new</span> <span class="keyword">char</span>[N];</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> re1;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> te1;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String re;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String te;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">get_next</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">int</span> j=-<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		Next[<span class="number">0</span>]=-<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;te1)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(j==-<span class="number">1</span>||TE[i]==TE[j])</span><br><span class="line">			&#123;</span><br><span class="line">				Next[++i]=++j;</span><br><span class="line">			&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">				j=Next[j];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">get_piace</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;<span class="keyword">int</span> j=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;re1&amp;&amp;j&lt;te1)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(j==-<span class="number">1</span>||TE[j]==RE[i])</span><br><span class="line">		&#123;</span><br><span class="line">			i++;</span><br><span class="line">			j++;</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">			j=Next[j];</span><br><span class="line">		&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(j&gt;=te1)<span class="comment">//这里当时没写等号          </span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> i-te1+<span class="number">1</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		re=scanner.nextLine();</span><br><span class="line">		te=scanner.nextLine();</span><br><span class="line">		RE=re.toCharArray();</span><br><span class="line">		TE=te.toCharArray();</span><br><span class="line">		re1 = re.length();</span><br><span class="line">		te1 = te.length();</span><br><span class="line">		get_next();</span><br><span class="line">		System.out.println(get_piace());</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/01/17/KMP%E5%BD%93%E6%97%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%80%9D%E8%B7%AF/" data-id="ckyir2rqh00002gvkc8s224a5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/01/17/%E8%BA%B2%E9%9A%9C%E7%A2%8D%E6%9C%80%E7%9F%AD%E8%B7%AF%E7%BA%BF---bfs%EF%BC%88%E9%98%9F%E5%88%97%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/01/17/%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/01/17/dfs%E4%BE%8B%E9%A2%98---%E5%85%AB%E7%9A%87%E5%90%8E/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/17/vscode%E9%85%8D%E7%BD%AE/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/17/%E8%BA%B2%E9%9A%9C%E7%A2%8D%E6%9C%80%E7%9F%AD%E8%B7%AF%E7%BA%BF---bfs%EF%BC%88%E9%98%9F%E5%88%97%EF%BC%89/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/17/KMP%E5%BD%93%E6%97%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%80%9D%E8%B7%AF/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/17/%E6%80%BB%E7%BB%93/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

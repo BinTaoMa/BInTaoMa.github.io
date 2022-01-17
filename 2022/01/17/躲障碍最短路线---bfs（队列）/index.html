@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>无聊死啦</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="bfs经典例题—躲障碍—">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无聊死啦">
+<meta property="og:url" content="http://example.com/2022/01/17/%E8%BA%B2%E9%9A%9C%E7%A2%8D%E6%9C%80%E7%9F%AD%E8%B7%AF%E7%BA%BF---bfs%EF%BC%88%E9%98%9F%E5%88%97%EF%BC%89/index.html">
+<meta property="og:site_name" content="无聊死啦">
+<meta property="og:description" content="bfs经典例题—躲障碍—">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-17T13:42:04.420Z">
+<meta property="article:modified_time" content="2022-01-17T13:50:34.899Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="无聊死啦" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">无聊死啦</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-躲障碍最短路线---bfs（队列）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/01/17/%E8%BA%B2%E9%9A%9C%E7%A2%8D%E6%9C%80%E7%9F%AD%E8%B7%AF%E7%BA%BF---bfs%EF%BC%88%E9%98%9F%E5%88%97%EF%BC%89/" class="article-date">
+  <time datetime="2022-01-17T13:42:04.420Z" itemprop="datePublished">2022-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="bfs经典例题"><a href="#bfs经典例题" class="headerlink" title="bfs经典例题"></a>bfs经典例题</h1><p>—躲障碍—</p>
+<span id="more"></span>
+
+<p><strong>暑期集训的一天下了大雨，地面出现了许多泥坑，一踩一脚泥。小tao从坐标平面上的点（0，0）出发，准备去向文瀛餐厅（X , Y）（-500≤ X , Y≤ 500)。在路上有N(1≤ N≤ 10000）个泥坑，位于点（Ai，Bi）（-500≤ Ai , Bi≤500)。</strong></p>
+<p><strong>小tao为了好好集训，买了一双新鞋子来鼓舞自己，他不想弄脏鞋子，但他也想尽快到达餐厅干饭。如果小tao只能平行于轴线移动，并在整数坐标点转向，请问他到达餐厅且保持鞋子干净要走的最小距离是多少？</strong></p>
+<p><strong>保证总是有一条没有泥的路使得小tao可以走到餐厅。</strong></p>
+<p>**输入： 第1行：三个空间分隔的整数：X、Y和N。 表示餐厅坐标以及泥坑的数量。<br>**</p>
+<p><strong>第2..N+1行：第i+1行包含两个空格分隔的整数：Ai和Bi。 表示每个泥坑的坐标。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1 2 7</span><br><span class="line">0 2</span><br><span class="line">4 2</span><br><span class="line">3 1</span><br><span class="line">1 1</span><br><span class="line">2 2</span><br><span class="line">-1 1</span><br><span class="line">-1 3</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出：输出小tao在不踩泥的情况下到达文瀛餐厅所需的最小距离。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">11</span><br></pre></td></tr></table></figure>
+
+<h5 id="代码c-："><a href="#代码c-：" class="headerlink" title="代码c++："></a>代码c++：</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 1005</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line"> <span class="keyword">int</span> x,y,l;<span class="comment">//这里的l表示到坐标为（x,y)的步数</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">int</span> dx[]=&#123;<span class="number">1</span>,<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> dy[]=&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">-1</span>&#125;;</span><br><span class="line"><span class="keyword">bool</span> vis[maxn][maxn];<span class="comment">//判断是否跑过了 </span></span><br><span class="line"><span class="keyword">int</span> map[maxn][maxn];<span class="comment">//判断障碍</span></span><br><span class="line"><span class="comment">//判断是否越界，判断是否有障碍物；</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(x&gt;=<span class="number">0</span>&amp;&amp;x&lt;=<span class="number">1000</span>&amp;&amp;y&gt;=<span class="number">0</span>&amp;&amp;y&lt;=<span class="number">1000</span>&amp;&amp;!vis[x][y]&amp;&amp;!map[x][y])<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bfs</span><span class="params">()</span></span>&#123;</span><br><span class="line"> queue&lt;node&gt;q;<span class="comment">//创建队列，&lt;&gt;这里面是类型，q是这个队列的总名</span></span><br><span class="line"> node s;s.x=<span class="number">500</span>,s.y =<span class="number">500</span>,s.l =<span class="number">0</span>;</span><br><span class="line"> q.<span class="built_in">push</span>(s);</span><br><span class="line"> vis[s.x ][s.y ]=<span class="number">1</span>;</span><br><span class="line"> <span class="keyword">while</span>(!q.<span class="built_in">empty</span>() )&#123;</span><br><span class="line">     <span class="comment">//读取进去的，然后抛弃他</span></span><br><span class="line">  node u=q.<span class="built_in">front</span>() ;q.<span class="built_in">pop</span>() ;</span><br><span class="line">  <span class="keyword">if</span>(u.x ==m&amp;&amp;u.y ==n)&#123;</span><br><span class="line">      <span class="comment">//满足的时候返回路的数值</span></span><br><span class="line">   <span class="keyword">return</span> u.l ;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">   <span class="keyword">int</span> tx=u.x +dx[i];</span><br><span class="line">   <span class="keyword">int</span> ty=u.y +dy[i];</span><br><span class="line">   <span class="keyword">if</span>(<span class="built_in">check</span>(tx,ty))&#123;</span><br><span class="line">    node temp;temp.x =tx;temp.y =ty;</span><br><span class="line">    temp.l =u.l+<span class="number">1</span>;</span><br><span class="line">       <span class="comment">//满足条件的话，可以往队例里边加入新的模块</span></span><br><span class="line">    q.<span class="built_in">push</span>(temp);</span><br><span class="line">    vis[tx][ty]=<span class="number">1</span>;  </span><br><span class="line">   &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> Y1,X1,NN;</span><br><span class="line">    <span class="comment">//题目要求范围是500~-500，所以</span></span><br><span class="line">	cin&gt;&gt;m&gt;&gt;n&gt;&gt;NN;</span><br><span class="line">	m=m+<span class="number">500</span>;n=n+<span class="number">500</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;NN;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		cin&gt;&gt;X1&gt;&gt;Y1;</span><br><span class="line">		map[X1+<span class="number">500</span>][Y1+<span class="number">500</span>]=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"> cout&lt;&lt;<span class="built_in">bfs</span>()&lt;&lt;endl;</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="代码java："><a href="#代码java：" class="headerlink" title="代码java："></a>代码java：</h5><p>java队列函数和C++不一样：</p>
+<p>.add（）添加一组数据尾部</p>
+<p>.firstNode()取第一组数据，不删</p>
+<p>.poll() <strong>/</strong>.pop() 取第一组，删除</p>
+<p>.size()有几组值</p>
+<p>.removeFirst()删除第一组数据</p>
+<p><strong>.push()往最前面插入一组值</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</span><br><span class="line"> <span class="comment">//在java中，LinkedList实现 Deque 接口，为 add、poll 提供先进先出队列操作，以及其他堆栈和双端队列操作。LinkedList是实现了List接口和Deque接口的双向链表</span></span><br><span class="line"> <span class="comment">//所以本题用LinkedList代替Queue。</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> LinkedList&lt;Q&gt; que = <span class="keyword">new</span> LinkedList&lt;Main.Q&gt;();<span class="comment">//que为队列的名字</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Q</span></span>&#123;</span><br><span class="line">		<span class="keyword">int</span> x;</span><br><span class="line">		<span class="keyword">int</span> y;</span><br><span class="line">		<span class="keyword">int</span> l;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> n,m,maxn=<span class="number">1005</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> dx[]=&#123;<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> dy[]=&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span>&#125;;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> vis[][]= <span class="keyword">new</span> <span class="keyword">boolean</span> [maxn][maxn];<span class="comment">//判断是否跑过了 </span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> map[][] = <span class="keyword">new</span> <span class="keyword">int</span>[maxn][maxn];<span class="comment">//判断障碍</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">		 <span class="keyword">if</span>(x&gt;=<span class="number">0</span>&amp;&amp;x&lt;=<span class="number">1000</span>&amp;&amp;y&gt;=<span class="number">0</span>&amp;&amp;y&lt;=<span class="number">1000</span>&amp;&amp;!vis[x][y]&amp;&amp;map[x][y]==<span class="number">0</span>)<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		 <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">bfs</span><span class="params">()</span></span>&#123;</span><br><span class="line">		 	Q s=<span class="keyword">new</span> Q();<span class="comment">//这代表的是创建一个队列对象</span></span><br><span class="line">			 s.x=<span class="number">500</span>;s.y =<span class="number">500</span>;s.l =<span class="number">0</span>;</span><br><span class="line">			 que.add(s);</span><br><span class="line">			 vis[s.x ][s.y ]=<span class="keyword">true</span>;</span><br><span class="line">			 <span class="keyword">while</span>(que.size()!=<span class="number">0</span> )&#123;</span><br><span class="line">				 Q u=que.poll();</span><br><span class="line">			  <span class="keyword">if</span>(u.x ==m&amp;&amp;u.y ==n)&#123;</span><br><span class="line">			   <span class="keyword">return</span> u.l ;</span><br><span class="line">			  &#125;</span><br><span class="line">			  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">			   <span class="keyword">int</span> tx=u.x +dx[i];</span><br><span class="line">			   <span class="keyword">int</span> ty=u.y +dy[i];</span><br><span class="line">			   <span class="keyword">if</span>(check(tx,ty))&#123;</span><br><span class="line">				   Q temp=<span class="keyword">new</span> Q();temp.x =tx;temp.y =ty;</span><br><span class="line">			    temp.l =u.l+<span class="number">1</span>;</span><br><span class="line">			    que.add(temp);</span><br><span class="line">			    vis[tx][ty]=<span class="keyword">true</span>;  </span><br><span class="line">			   &#125;</span><br><span class="line">			  &#125;</span><br><span class="line">			 &#125; </span><br><span class="line">			 <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Scanner scanner=<span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> Y1,X1,NN;</span><br><span class="line">		m = scanner.nextInt();</span><br><span class="line">		n = scanner.nextInt();</span><br><span class="line">		NN = scanner.nextInt();</span><br><span class="line">		m=m+<span class="number">500</span>;n=n+<span class="number">500</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;NN;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			X1 = scanner.nextInt();</span><br><span class="line">			Y1 = scanner.nextInt();</span><br><span class="line">			map[X1+<span class="number">500</span>][Y1+<span class="number">500</span>]=<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	System.out.println(bfs());</span><br><span class="line">		 </span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/01/17/%E8%BA%B2%E9%9A%9C%E7%A2%8D%E6%9C%80%E7%9F%AD%E8%B7%AF%E7%BA%BF---bfs%EF%BC%88%E9%98%9F%E5%88%97%EF%BC%89/" data-id="ckyir2rqr00072gvk44yrelh1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/01/17/vscode%E9%85%8D%E7%BD%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/01/17/KMP%E5%BD%93%E6%97%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%80%9D%E8%B7%AF/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/01/17/dfs%E4%BE%8B%E9%A2%98---%E5%85%AB%E7%9A%87%E5%90%8E/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/17/vscode%E9%85%8D%E7%BD%AE/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/17/%E8%BA%B2%E9%9A%9C%E7%A2%8D%E6%9C%80%E7%9F%AD%E8%B7%AF%E7%BA%BF---bfs%EF%BC%88%E9%98%9F%E5%88%97%EF%BC%89/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/17/KMP%E5%BD%93%E6%97%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%80%9D%E8%B7%AF/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/17/%E6%80%BB%E7%BB%93/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
