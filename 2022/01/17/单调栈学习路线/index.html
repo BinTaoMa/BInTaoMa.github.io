@@ -1,26 +1,185 @@
-extends views/main.pug
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-block head
-  title
-    = page.title + ' - ' + config.title
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="单调栈：（比较难理解这个算法—绝对不是我摸鱼了）—————————-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2022/01/17/%E5%8D%95%E8%B0%83%E6%A0%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="单调栈：（比较难理解这个算法—绝对不是我摸鱼了）—————————-">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-17T10:23:39.774Z">
+<meta property="article:modified_time" content="2022-01-17T10:24:27.413Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-block main
-  if page.type === 'tags'
-    include mixins/tags.pug
-    +tags('TAGS', site.tags.length)
-  else
-    include mixins/post.pug
-    +post(page, 'post')
+<meta name="generator" content="Hexo 5.4.0"></head>
 
-  //-
-  include plugins/reward.pug
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-单调栈学习路线" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/01/17/%E5%8D%95%E8%B0%83%E6%A0%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" class="article-date">
+  <time datetime="2022-01-17T10:23:39.774Z" itemprop="datePublished">2022-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="单调栈："><a href="#单调栈：" class="headerlink" title="单调栈："></a><strong>单调栈</strong>：</h4><p>（比较难理解这个算法—绝对不是我摸鱼了）—————————-</p>
+<span id="more"></span>
 
-  //- comment
-  if theme.comment_plugin == 'valine'
-    include plugins/valine.pug
-  else
-    include plugins/livere.pug
+<h3 id="模板题："><a href="#模板题：" class="headerlink" title="模板题："></a>模板题：</h3><p>现在有一个数组a[4] = {5,7,3,4}，<strong>要你找出每一个元素左边最靠近它的最小元素的位置（下标+1），如果没有元素比它小，则输出0</strong><br>此时我们会想到，从每一个数字开始想左边遍历，这是一个朴素的算法，我们就不再多说了。<br>我们要说的是怎么样利用单调栈来解决该问题<br>1.设计一个数组res[4]，来保存结果<br>2.开一个栈，这个栈的性质是，当栈为空的时候，将对应的res[i] = 0；当栈顶元素是从左开始，输入的数中最小的那个的下标，如果进栈的元素小于或者等于a[栈顶元素]，则输出0；如果大于，则输出栈顶元素+1。</p>
+<p>下面上代码（基本算是模板）:</p>
+<p>栈单掉递增</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//n表示要找的总数</span></span><br><span class="line">	<span class="keyword">int</span> n; cin &gt;&gt; n;</span><br><span class="line">	<span class="comment">//a用来保存输入的数据</span></span><br><span class="line">	<span class="keyword">int</span>* a = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">	<span class="comment">//res_left用来保存对应的结果</span></span><br><span class="line">	<span class="keyword">int</span>* res_left = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">	stack&lt;<span class="keyword">int</span>&gt;s;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)cin &gt;&gt; a[i];</span><br><span class="line">	<span class="comment">//找出a[i]左边和右边最近的一个比他小的值的下标(由一开始)</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		<span class="keyword">while</span> (!s.<span class="built_in">empty</span>() &amp;&amp; a[i] &lt;= a[s.<span class="built_in">top</span>()])s.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">if</span> (s.<span class="built_in">empty</span>())res_left[i] = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">else</span> res_left[i] = s.<span class="built_in">top</span>() + <span class="number">1</span>;<span class="comment">//输入是在上一个循环</span></span><br><span class="line">		s.<span class="built_in">push</span>(i); </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//这个栈就是递减的一个，取最小值的时候，复杂度是O（1）</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		cout &lt;&lt; res_left[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">输入数据: <span class="number">6</span></span><br><span class="line"><span class="number">4</span> <span class="number">7</span> <span class="number">8</span> <span class="number">5</span> <span class="number">3</span> <span class="number">1</span></span><br><span class="line">输出数据:</span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-  //- mathjax
-  if page.mathjax
-    include plugins/mathjax.pug
+<h3 id="模板题-："><a href="#模板题-：" class="headerlink" title="模板题++："></a>模板题++：</h3><p>题目背景：<br>高个子同学可以看到身高比自己矮的同学<strong>，但是目光一旦遇到高于或等于自己的同学后，便无法继续向前看。先给出所有同学的身高</strong>，求所有同学能看到的同学数量之和。<br>可能不和逻辑…<br>输入格式：<br>第一行一个n，表示总共有多少名同学<br>接下来输入n个数字，表示从后到前的同学的身高<br>输出格式<br>一个数字，同学们能看到的同学的总数</p>
+<p>单调减栈：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bits/stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">const int maxn=20;</span><br><span class="line">int a[maxn]; </span><br><span class="line">int l[maxn]; </span><br><span class="line">int sum=0;</span><br><span class="line">void solve()</span><br><span class="line">&#123;</span><br><span class="line">    int num;</span><br><span class="line">    cin&gt;&gt;num;</span><br><span class="line">    for(int i=0;i&lt;num;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin&gt;&gt;a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    stack&lt;int&gt; stk;</span><br><span class="line">    for(int i=0;i&lt;num;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        //递减</span><br><span class="line">        while (!stk.empty()&amp;&amp;a[i]&gt;=a[stk.top()])</span><br><span class="line">        &#123;</span><br><span class="line">            stk.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        // if(stk.empty())</span><br><span class="line">        // &#123;</span><br><span class="line">        //     l[i]=0;</span><br><span class="line">        // &#125;else&#123;</span><br><span class="line">        //     l[i]=stk.top()+1;</span><br><span class="line">        // &#125;</span><br><span class="line">        sum+=stk.size();</span><br><span class="line">        stk.push(i);</span><br><span class="line">    &#125;</span><br><span class="line">    // for(int i=0;i&lt;num;i++)</span><br><span class="line">    // &#123;</span><br><span class="line">       </span><br><span class="line">    // &#125;</span><br><span class="line">    cout&lt;&lt;sum;</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    freopen(&quot;a.in&quot;, &quot;r&quot;, stdin);</span><br><span class="line">    freopen(&quot;b.out&quot;, &quot;w&quot;, stdout);</span><br><span class="line">    solve();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">输入数据:</span><br><span class="line">6</span><br><span class="line">188 169 180 172 190 165</span><br><span class="line">输出数据:</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/01/17/%E5%8D%95%E8%B0%83%E6%A0%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" data-id="ckyin3ss40000osvk7c3ddkxu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/01/17/%E5%8D%95%E8%B0%83%E6%A0%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
