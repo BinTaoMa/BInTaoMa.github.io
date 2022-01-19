@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>无聊死啦</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="五道类型题多线程—找规律–贪心–双指针–思维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无聊死啦">
+<meta property="og:url" content="http://example.com/2022/01/19/%E5%AE%89%E5%8D%93%E8%80%83%E6%A0%B8/index.html">
+<meta property="og:site_name" content="无聊死啦">
+<meta property="og:description" content="五道类型题多线程—找规律–贪心–双指针–思维">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-19T08:32:56.388Z">
+<meta property="article:modified_time" content="2022-01-19T08:27:25.320Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="无聊死啦" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">无聊死啦</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-安卓考核" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/01/19/%E5%AE%89%E5%8D%93%E8%80%83%E6%A0%B8/" class="article-date">
+  <time datetime="2022-01-19T08:32:56.388Z" itemprop="datePublished">2022-01-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="五道类型题"><a href="#五道类型题" class="headerlink" title="五道类型题"></a>五道类型题</h1><p><strong>多线程</strong>—<strong>找规律</strong>–<strong>贪心</strong>–<strong>双指针</strong>–<strong>思维</strong></p>
+<span id="more"></span>
+
+<h3 id="一-多线程"><a href="#一-多线程" class="headerlink" title="一.多线程"></a>一.多线程</h3><p>注意:题意比较ex，不好理解，我搞几个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入</span><br><span class="line">[2,1]</span><br><span class="line">输出</span><br><span class="line">&quot;firstsecond&quot;</span><br><span class="line">预期结果</span><br><span class="line">&quot;firstsecond&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入</span><br><span class="line">[2,1,3]</span><br><span class="line">输出</span><br><span class="line">&quot;firstsecondthird&quot;</span><br><span class="line">预期结果</span><br><span class="line">&quot;firstsecondthird&quot;</span><br></pre></td></tr></table></figure>
+
+<p>网址—-<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/print-in-order/">https://leetcode-cn.com/problems/print-in-order/</a></p>
+<p>主题思路是锁的使用，要给每个都加锁，之后再看条件，满足之后锁再开启</p>
+<p>看ac代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">class Foo &#123;</span><br><span class="line">    public int a=1;//这是判定值，也就是线程开启的条件</span><br><span class="line">    public Object b = new Object();//这是锁的对象</span><br><span class="line">    public Foo() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    public void first(Runnable printFirst) throws InterruptedException &#123;</span><br><span class="line">        synchronized(b)</span><br><span class="line">        &#123;</span><br><span class="line">            // printFirst.run() outputs &quot;first&quot;. Do not change or remove this line.</span><br><span class="line">            if(a==1)</span><br><span class="line">            &#123;</span><br><span class="line">                a=2;</span><br><span class="line">                printFirst.run();</span><br><span class="line">                b.notifyAll();//让下面处于等待的开始跑，没有的话就算了</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void second(Runnable printSecond) throws InterruptedException &#123;</span><br><span class="line">         synchronized(b)</span><br><span class="line">         &#123;</span><br><span class="line">             while(a!=2)//这里是条件</span><br><span class="line">             &#123;</span><br><span class="line">                 b.wait();</span><br><span class="line">             &#125;</span><br><span class="line">            // printSecond.run() outputs &quot;second&quot;. Do not change or remove this line.</span><br><span class="line">            </span><br><span class="line">                a=3;</span><br><span class="line">                printSecond.run();</span><br><span class="line">                b.notifyAll();//和上面的一样</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public void third(Runnable printThird) throws InterruptedException &#123;</span><br><span class="line">        synchronized(b)</span><br><span class="line">        &#123;</span><br><span class="line">            // printThird.run() outputs &quot;third&quot;. Do not change or remove this line.</span><br><span class="line">        while(a!=3)//这里是条件</span><br><span class="line">        &#123;</span><br><span class="line">            b.wait();</span><br><span class="line">        &#125; </span><br><span class="line">        printThird.run();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="二，找规律"><a href="#二，找规律" class="headerlink" title="二，找规律"></a>二，找规律</h3><p>网址—-<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/nim-game/submissions/">https://leetcode-cn.com/problems/nim-game/submissions/</a></p>
+<p>这题就是找下规律，会发现123赢4输，之后先手可以凑4来让对手输，也就是567错，8的时候因为都是最优下法，所以还是会输</p>
+<p>看ac代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool canWinNim(int n) &#123;</span><br><span class="line">        return n%4;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>emmmm———–第一眼想的是威佐夫博弈，反正要写，就复习一下</p>
+<p>威佐夫博弈（Wythoff’s game）是指的这样一个问题：有两堆各若干个物品，两个人轮流从任意一堆中取出至少一个或者同时从两堆中取出同样多的物品，规定每次至少取一个，至多不限，最后取光者胜利。 给定这两堆的数目A，B，C=min(A,B)，D=max(A,B)</p>
+<p>若是满足C=((sqrt(5)+1)/2*(D-C))则先手输，其他情况后手输【其实(sqrt(5)+1)/2）就相当于黄金分割率0.618，不过是怕被卡精度罢了】</p>
+<h3 id="三-贪心"><a href="#三-贪心" class="headerlink" title="三.贪心"></a>三.贪心</h3><p>网址–<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jump-game/submissions/">https://leetcode-cn.com/problems/jump-game/submissions/</a></p>
+<p>这道题算是典型的贪心–虽然我忘了，主要做题思路就是要想到每个节点之前的最大的可到达数要大于这个节点的位置，只要大于就可以到达，之后反复找出最大值，遍历就可，如是不满足就返回false，满足就返回true</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool canJump(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">        int a=0;</span><br><span class="line">        for(int i=0;i&lt;nums.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(i&gt;a)</span><br><span class="line">            return false;</span><br><span class="line">            a=max(i+nums[i],a);</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="四-双指针"><a href="#四-双指针" class="headerlink" title="四.双指针"></a>四.双指针</h3><p>网址—<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/container-with-most-water/submissions/">https://leetcode-cn.com/problems/container-with-most-water/submissions/</a></p>
+<p>这个题难度不大，但是恶心到了，本来想的直接遍历，结果超时了，然后前后遍历加判断大小，还是超时了，最后只能while双指针了 ，因为面积的宽是缩小的所以只有前后两个小的缩小才能保证遍历的会有最大值，变最小的那一边比不变好多了。</p>
+<p>ac代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int maxArea(vector&lt;int&gt;&amp; height) &#123;</span><br><span class="line">        int min1=0;</span><br><span class="line">        int j=height.size()-1;int i=0;</span><br><span class="line">        int max1;</span><br><span class="line">        while(i&lt;j)</span><br><span class="line">        &#123;</span><br><span class="line">            </span><br><span class="line">            max1 = min(height[i],height[j])*(j-i);</span><br><span class="line">            min1 = max(max1,min1);</span><br><span class="line">            if(height[i]&lt;height[j])</span><br><span class="line">            &#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return min1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>五.思维题</p>
+<p>网址–<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/rotate-image/submissions/">https://leetcode-cn.com/problems/rotate-image/submissions/</a></p>
+<p>这个题没啥解题思路，直接换就可以了，没有难度</p>
+<p>ac代码；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    void rotate(vector&lt;vector&lt;int&gt;&gt;&amp; matrix) &#123;</span><br><span class="line">        int a=matrix[0].size();</span><br><span class="line">        int b[a*a+1];</span><br><span class="line">        int num=0;</span><br><span class="line">        for(int i=0;i&lt;a;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j=a-1;j&gt;=0;j--)</span><br><span class="line">            &#123;</span><br><span class="line">                b[num++]=matrix[j][i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        num=0;</span><br><span class="line">        for(int i=0;i&lt;a;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j=0;j&lt;a;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                matrix[i][j]=b[num++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这就结束了—————-</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/01/19/%E5%AE%89%E5%8D%93%E8%80%83%E6%A0%B8/" data-id="ckylagfyo0004wgvk2z1f9u87" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/01/19/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/01/19/%E5%AE%89%E5%8D%93%E8%80%83%E6%A0%B8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/19/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/19/%E6%80%BB%E7%BB%93/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/19/KMP%E5%BD%93%E6%97%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%80%9D%E8%B7%AF/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/19/%E8%BA%B2%E9%9A%9C%E7%A2%8D%E6%9C%80%E7%9F%AD%E8%B7%AF%E7%BA%BF---bfs%EF%BC%88%E9%98%9F%E5%88%97%EF%BC%89/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
